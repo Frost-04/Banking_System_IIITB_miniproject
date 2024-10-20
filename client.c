@@ -22,6 +22,8 @@
 
 int portNumber = 8082;
 
+int option;
+
 void chooseOption(int);
 void userMenu(int);
 void login(int);
@@ -56,6 +58,8 @@ void login(int sd)
 	printf("\nPassword : ");
 	char *pass = getpass("");
 	strcpy(password, pass);
+
+	write(sd, &option, sizeof(int));
 	write(sd, &id, sizeof(int));
 	write(sd, &password, sizeof(password));
 	read(sd, &authentication, sizeof(bool));
@@ -168,7 +172,7 @@ void chooseOption(int sd)
 			printf("Customer Accounts Are:-------------------------\n\n");
 			for (int i = 0; i < count; i++)
 			{
-				read(sd, &record, sizeof(struct admin));
+				read(sd, &record, sizeof(struct customer));
 				printf("\nCustomer ID: %d\n", record.customerID);
 				printf("\nName: %s\n", record.name);
 				printf("\nPassword: %s\n", record.password);
